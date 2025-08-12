@@ -17,3 +17,4 @@ date_default_timezone_set('America/Sao_Paulo');
 
 // Carrega as rotas
 require __DIR__ . '/routes/api.php';
+?>

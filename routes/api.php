@@ -25,3 +25,4 @@ switch ($urlParts[0]) {
         echo json_encode(["message" => "Rota não encontrada"]);
         break;
 }
+?>

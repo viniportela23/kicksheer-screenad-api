@@ -1,4 +1,9 @@
 <?php
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+require_once __DIR__ . '/../config/database.php'; // <- precisa disso
+
 class BaseController {
     protected $db;
     protected $requestMethod;
@@ -21,7 +26,7 @@ class BaseController {
         $token = str_replace('Bearer ', '', $headers['Authorization']);
         
         try {
-            $decoded = JWT::decode($token, JWT_SECRET);
+            $decoded = JWT::decode($token, new Key(JWT_SECRET, 'HS256'));
             $this->userId = $decoded->sub;
             return true;
         } catch (Exception $e) {
@@ -31,3 +36,4 @@ class BaseController {
         }
     }
 }
+?>

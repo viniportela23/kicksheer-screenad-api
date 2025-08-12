@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/BaseController.php';
 require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../utils/JWT.php';
 require_once __DIR__ . '/../utils/Response.php';
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key; // Adicione isso aqui
 
 class AuthController extends BaseController {
     public function login() {
@@ -33,7 +34,7 @@ class AuthController extends BaseController {
             "name" => $user['username'],
             "iat" => time(),
             "exp" => strtotime(JWT_EXPIRE)
-        ], JWT_SECRET);
+        ], JWT_SECRET, 'HS256');
 
         Response::ok([
             "message" => "Login bem-sucedido",
@@ -45,3 +46,4 @@ class AuthController extends BaseController {
         ]);
     }
 }
+?>
