@@ -1,4 +1,7 @@
 <?php
+
+// esta parte cuida da logica do login e criacao do token
+
 require_once __DIR__ . '/BaseController.php';
 require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../utils/Response.php';
@@ -27,22 +30,13 @@ class AuthController extends BaseController {
             Response::unauthorized(["message" => "Credenciais inválidas"]);
             return;
         }
+        $tokenModel = new BaseController();
+        $token = $tokenModel->geraTokenJWT($user['id'], $user['username'], $user['nivel'], strtotime(JWT_EXPIRE));
 
-        // Gera token JWT
-        $token = JWT::encode([
-            "sub" => $user['id'],
-            "name" => $user['username'],
-            "iat" => time(),
-            "exp" => strtotime(JWT_EXPIRE)
-        ], JWT_SECRET, 'HS256');
 
         Response::ok([
             "message" => "Login bem-sucedido",
-            "token" => $token,
-            "user" => [
-                "id" => $user['id'],
-                "username" => $user['username']
-            ]
+            "token" => $token
         ]);
     }
 }

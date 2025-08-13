@@ -1,4 +1,7 @@
 <?php
+
+// ambiente criado para fazer a busca ao banco voltada aos usuarios
+
 require_once __DIR__ . '/BaseModel.php';
 
 class User extends BaseModel {

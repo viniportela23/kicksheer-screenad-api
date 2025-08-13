@@ -1,4 +1,7 @@
 <?php
+
+// pagina voltada apenas para fazer as respostas 
+
 class Response {
     public static function ok($data = []) {
         http_response_code(200);
@@ -8,6 +11,12 @@ class Response {
 
     public static function created($data = []) {
         http_response_code(201);
+        echo json_encode($data);
+        exit;
+    }
+
+    public static function notData($data = []) {
+        http_response_code(204);
         echo json_encode($data);
         exit;
     }

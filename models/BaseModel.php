@@ -1,4 +1,7 @@
 <?php
+
+// inicia a conexão com o banco de dados
+
 class BaseModel {
     protected $db;
     protected $table;
