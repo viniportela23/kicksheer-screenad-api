@@ -2,7 +2,10 @@
     RewriteEngine On
     RewriteBase /api/
     
-    # Redireciona todas as requisições para o index.php
+    # Libera acesso direto à pasta uploads
+    RewriteRule ^uploads/ - [L]
+    
+    # Redireciona todas as outras requisições para o index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
