@@ -35,5 +35,21 @@ class Buscas extends BaseModel {
 	        'data' => $resultados
 	    ];
 	}
+	public function ConsultaCompletaBaseStatus($status, $table) {
+	    $query = "SELECT * FROM " . $table . " WHERE status = :status";
+	    $stmt = $this->executeQuery($query, [':status' => $status]);
+	    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	    
+	    if (empty($resultados)) {
+	        return [
+	            'message' => 'Nenhum dado encontrado'
+	        ];
+	    }
+	    
+	    return [
+	        'data' => $resultados
+	    ];
+	}
+
 }
 ?>

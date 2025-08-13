@@ -21,7 +21,7 @@ class ListaController extends BaseController {
 
         if (!empty($ListaAnuncios['data']) ) {
             Response::ok([
-                "dados" => $ListaAnuncios,
+                "dados" => $ListaAnuncios['data'],
                 "token" => $data['token']
             ]);
         }
@@ -48,7 +48,7 @@ class ListaController extends BaseController {
 
         if (!empty($ListaProd['data']) ) {
             Response::ok([
-                "dados" => $ListaProd,
+                "dados" => $ListaProd['data'],
                 "token" => $data['token']
             ]);
         }
@@ -71,11 +71,11 @@ class ListaController extends BaseController {
             return;
         }
         $userModel = new Buscas($this->db);
-        $Listalayout = $userModel->ConsultaCompletaBaseID($data['id'], 'layout_Cardapio');
+        $Listalayout = $userModel->ConsultaCompletaBaseStatus('1', 'layout_Cardapio');
 
         if (!empty($Listalayout['data']) ) {
             Response::ok([
-                "dados" => $Listalayout,
+                "dados" => $Listalayout['data'],
                 "token" => $data['token']
             ]);
         }
