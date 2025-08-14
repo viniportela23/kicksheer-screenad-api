@@ -5,7 +5,7 @@ require_once __DIR__ . '/BaseModel.php';
 
 class Buscas extends BaseModel {
 
-	public function ConsultaCompletaBaseID($id_user, $table) {
+	public function ConsultaCompletaBaseIDUser($id_user, $table) {
 	    $query = "SELECT * FROM " . $table . " WHERE id_user = :id_user";
 	    $stmt = $this->executeQuery($query, [':id_user' => $id_user]);
 	    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -8,7 +8,7 @@ class Adicao extends BaseModel {
 
 	public function InsertAnunciantes($data, $arquivo, $id_user) {
 	    // Validação básica dos dados recebidos
-	    if (empty($data['nome']) || empty($data['arquivo'])) {
+	    if (empty($data['nome']) || empty($arquivo)) {
 	        return [
 	            'success' => false,
 	            'message' => 'Nome e arquivo são obrigatórios'
@@ -42,6 +42,76 @@ class Adicao extends BaseModel {
 	        ];
 	    }
 	}
+	public function InsertProdCardapio($data, $id_user) {
+	    // Validação básica dos dados recebidos
+	    if (empty($data['nome']) || empty($data['preco'])) {
+	        return [
+	            'success' => false,
+	            'message' => 'Nome e arquivo são obrigatórios'
+	        ];
+	    }
+
+	    try {
+	        $query = "INSERT INTO prod_Cardapio 
+	                 (nome, preco, data_criacao, data_modificacao, status, id_user) 
+	                 VALUES 
+	                 (:nome, :preco, NOW(), NOW(), :status, :id_user)";
+	        
+	        $stmt = $this->executeQuery($query, [
+	            ':nome' => $data['nome'],
+	            ':preco' => $data['preco'],
+	            ':status' => $data['status'],
+	            ':id_user' => $id_user
+	        ]);
+	        
+	        return [
+	            'success' => true,
+	            'message' => 'Registro inserido com sucesso',
+	            'id' => $this->db->lastInsertId() // Retorna o ID do registro inserido
+	        ];
+	    } catch (Exception $e) {
+	        return [
+	            'success' => false,
+	            'message' => 'Erro ao inserir registro: ' . $e->getMessage()
+	        ];
+	    }
+	}
+
+	public function InsertLayoutCardapio($data, $arquivo, $id_user) {
+	    // Validação básica dos dados recebidos
+	    if (empty($data['nome']) || empty($arquivo)) {
+	        return [
+	            'success' => false,
+	            'message' => 'Nome e arquivo são obrigatórios'
+	        ];
+	    }
+
+	    try {
+	        $query = "INSERT INTO layout_Cardapio 
+	                 (nome, imagem, data_criacao, data_update, status, id_user) 
+	                 VALUES 
+	                 (:nome, :arquivo, NOW(), NOW(), :status, :id_user)";
+	        
+	        $stmt = $this->executeQuery($query, [
+	            ':nome' => $data['nome'],
+	            ':arquivo' => $arquivo,
+	            ':status' => $data['status'],
+	            ':id_user' => $id_user
+	        ]);
+	        
+	        return [
+	            'success' => true,
+	            'message' => 'Registro inserido com sucesso',
+	            'id' => $this->db->lastInsertId() // Retorna o ID do registro inserido
+	        ];
+	    } catch (Exception $e) {
+	        return [
+	            'success' => false,
+	            'message' => 'Erro ao inserir registro: ' . $e->getMessage()
+	        ];
+	    }
+	}
+
 
 }
 ?>

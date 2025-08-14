@@ -18,7 +18,17 @@ class AdicaoController extends BaseController {
             return;
         }
 
-        $data = json_decode(file_get_contents('php://input'), true);
+        $nome = $_POST['nome'] ?? null;
+        $tempo = $_POST['tempo'] ?? null;
+        $data_finalizacao = $_POST['data_finalizacao'] ?? null;
+        $status = $_POST['status'] ?? null;
+
+        $data = [
+            'nome' => $nome,
+            'tempo' => $tempo,
+            'data_finalizacao' => $data_finalizacao,
+            'status' => $status,
+        ];
 
         // faz a requisicao para SalvaArquivos.php aonde salva o arquivo e depois recebe o nome q ficou salvo
         $SalvaArquivos = new SalvaArquivos();
@@ -45,5 +55,114 @@ class AdicaoController extends BaseController {
   
         }
     }
+    public function prodCardapio($dataToken) {
+
+        if ($this->requestMethod !== 'POST') {
+            Response::methodNotAllowed();
+            return;
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $userModel = new Adicao($this->db);
+        $AdicaoAnuncios = $userModel->InsertProdCardapio($data, $dataToken['id']);
+
+        if ($AdicaoAnuncios['success'] ===  true) {
+            Response::ok([
+                "message" => "Produto do cardapio inserido com sucesso!",
+                "token" => $dataToken['token']
+            ]);
+        } else {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao inseriri produto do cardapio"
+            ]);
+  
+        }
+    }
+    public function layoutCardapio($dataToken) {
+
+        if ($this->requestMethod !== 'POST') {
+            Response::methodNotAllowed();
+            return;
+        }
+
+        $nome = $_POST['nome'] ?? null;
+        $status = $_POST['status'] ?? null;
+
+        $data = [
+            'nome' => $nome,
+            'status' => $status,
+        ];
+
+        // faz a requisicao para SalvaArquivos.php aonde salva o arquivo e depois recebe o nome q ficou salvo
+        $SalvaArquivos = new SalvaArquivos();
+        $resultSalvaArquivos = $SalvaArquivos->saveFile($_FILES['arquivo'], 'layouts');
+
+        if ($resultSalvaArquivos['success'] !== true) {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao salvar o arquivo"
+            ]);
+        }
+
+        $userModel = new Adicao($this->db);
+        $AdicaoAnuncios = $userModel->InsertLayoutCardapio($data, $resultSalvaArquivos['file_name'], $dataToken['id']);
+
+        if ($AdicaoAnuncios['success'] ===  true) {
+            Response::ok([
+                "message" => "Produto inserido com sucesso!",
+                "token" => $dataToken['token']
+            ]);
+        } else {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao inseriri produto"
+            ]);
+  
+        }
+    }
+    public function usuarios($dataToken) {
+
+        if ($this->requestMethod !== 'POST') {
+            Response::methodNotAllowed();
+            return;
+        }
+
+        $nome = $_POST['nome'] ?? null;
+        $tempo = $_POST['tempo'] ?? null;
+        $data_finalizacao = $_POST['data_finalizacao'] ?? null;
+        $status = $_POST['status'] ?? null;
+
+        $data = [
+            'nome' => $nome,
+            'tempo' => $tempo,
+            'data_finalizacao' => $data_finalizacao,
+            'status' => $status,
+        ];
+
+        // faz a requisicao para SalvaArquivos.php aonde salva o arquivo e depois recebe o nome q ficou salvo
+        $SalvaArquivos = new SalvaArquivos();
+        $resultSalvaArquivos = $SalvaArquivos->saveFile($_FILES['arquivo'], 'anunciantes');
+
+        if ($resultSalvaArquivos['success'] !== true) {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao salvar o arquivo"
+            ]);
+        }
+
+        $userModel = new Adicao($this->db);
+        $AdicaoAnuncios = $userModel->InsertAnunciantes($data, $resultSalvaArquivos['file_name'], $dataToken['id']);
+
+        if ($AdicaoAnuncios['success'] ===  true) {
+            Response::ok([
+                "message" => "Anúnciante inserido com sucesso!",
+                "token" => $dataToken['token']
+            ]);
+        } else {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao inseriri anúncio"
+            ]);
+  
+        }
+    }
+
 }
 ?>

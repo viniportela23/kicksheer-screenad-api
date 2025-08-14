@@ -17,7 +17,7 @@ class ListaController extends BaseController {
             return;
         }
         $userModel = new Buscas($this->db);
-        $ListaAnuncios = $userModel->ConsultaCompletaBaseID($data['id'], 'anuncios');
+        $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUser($data['id'], 'anuncios');
 
         if (!empty($ListaAnuncios['data']) ) {
             Response::ok([
@@ -44,7 +44,7 @@ class ListaController extends BaseController {
             return;
         }
         $userModel = new Buscas($this->db);
-        $ListaProd = $userModel->ConsultaCompletaBaseID($data['id'], 'prod_Cardapio');
+        $ListaProd = $userModel->ConsultaCompletaBaseIDUser($data['id'], 'prod_Cardapio');
 
         if (!empty($ListaProd['data']) ) {
             Response::ok([
@@ -71,7 +71,7 @@ class ListaController extends BaseController {
             return;
         }
         $userModel = new Buscas($this->db);
-        $Listalayout = $userModel->ConsultaCompletaBaseStatus('1', 'layout_Cardapio');
+        $Listalayout = $userModel->ConsultaCompletaBaseIDUser($data['id'], 'layout_Cardapio');
 
         if (!empty($Listalayout['data']) ) {
             Response::ok([
@@ -80,37 +80,6 @@ class ListaController extends BaseController {
             ]);
         }
         elseif ($Listalayout['message'] === 'Nenhum dado encontrado') {
-            Response::ok([
-                "message" => "Nenhum dado encontrado",
-                "token" => $data['token']
-            ]);
-        } else {
-            Response::unprocessableEntity([
-                "message" => "O correu um erro ao consultar lista"
-            ]);
-  
-        }
-    }
-    public function usuarios($data) {
-
-        if ($this->requestMethod !== 'POST') {
-            Response::methodNotAllowed();
-            return;
-        }
-        if ($data['nivel'] !== 1) {
-            Response::unauthorized();
-            return;
-        }
-        $userModel = new Buscas($this->db);
-        $ListaUsuarios = $userModel->ConsultaCompleta('users');
-
-        if (!empty($ListaUsuarios['data']) ) {
-            Response::ok([
-                "dados" => $ListaUsuarios,
-                "token" => $data['token']
-            ]);
-        }
-        elseif ($ListaUsuarios['message'] === 'Nenhum dado encontrado') {
             Response::ok([
                 "message" => "Nenhum dado encontrado",
                 "token" => $data['token']
