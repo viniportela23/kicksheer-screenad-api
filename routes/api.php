@@ -35,8 +35,8 @@ switch ($urlParts[0]) {
 
         $listaController = new ListaController();
         switch ($urlParts[1] ?? '') {
-            case 'anuncios':
-                $listaController->anuncios($novoToken);
+            case 'anunciantes':
+                $listaController->anunciantes($novoToken);
                 break;
             case 'prodCardapio':
                 $listaController->prodCardapio($novoToken);
@@ -53,7 +53,35 @@ switch ($urlParts[0]) {
                 break;
         }
         break;
+    case 'adiciona':
+        // Primeiro validar o token JWT
+        require_once __DIR__ . '/../controllers/BaseController.php';
+        $baseController = new BaseController();
+        $novoToken = $baseController->validateJWT(); // Isso vai parar a execução se o token for inválido
         
+        // Se chegou aqui, o token é válido, pode continuar
+        require_once __DIR__ . '/../controllers/AdicaoController.php';
+
+        $AdicaoController = new AdicaoController();
+        switch ($urlParts[1] ?? '') {
+            case 'anunciantes':
+                $AdicaoController->anunciantes($novoToken);
+                break;
+            case 'prodCardapio':
+                $AdicaoController->prodCardapio($novoToken);
+                break;
+            case 'layoutCardapio':
+                $AdicaoController->layoutCardapio($novoToken);
+                break;
+            case 'usuarios':
+                $AdicaoController->usuarios($novoToken);
+                break;
+            default:
+                http_response_code(404);
+                echo json_encode(["message" => "Endpoint de lista não encontrado"]);
+                break;
+        }
+        break;
     default:
         http_response_code(404);
         echo json_encode(["message" => "Rota não encontrada"]);

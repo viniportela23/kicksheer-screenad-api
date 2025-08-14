@@ -10,7 +10,7 @@ use Firebase\JWT\Key; // Adicione isso aqui
 
 class ListaController extends BaseController {
 
-    public function anuncios($data) {
+    public function anunciantes($data) {
 
         if ($this->requestMethod !== 'POST') {
             Response::methodNotAllowed();

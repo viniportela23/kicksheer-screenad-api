@@ -1,0 +1,47 @@
+<?php 
+// ambiente criado para fazer a busca ao banco voltada ao cardapio
+
+require_once __DIR__ . '/BaseModel.php';
+
+class Adicao extends BaseModel {
+
+
+	public function InsertAnunciantes($data, $arquivo, $id_user) {
+	    // Validação básica dos dados recebidos
+	    if (empty($data['nome']) || empty($data['arquivo'])) {
+	        return [
+	            'success' => false,
+	            'message' => 'Nome e arquivo são obrigatórios'
+	        ];
+	    }
+
+	    try {
+	        $query = "INSERT INTO anuncios 
+	                 (nome, arquivo, tempo, data_criacao, data_modificacao, data_finalizacao, status, id_user) 
+	                 VALUES 
+	                 (:nome, :arquivo, :tempo, NOW(), NOW(), :data_finalizacao, :status, :id_user)";
+	        
+	        $stmt = $this->executeQuery($query, [
+	            ':nome' => $data['nome'],
+	            ':arquivo' => $arquivo,
+	            ':tempo' => $data['tempo'],
+	            ':data_finalizacao' => $data['data_finalizacao'],
+	            ':status' => $data['status'],
+	            ':id_user' => $id_user
+	        ]);
+	        
+	        return [
+	            'success' => true,
+	            'message' => 'Registro inserido com sucesso',
+	            'id' => $this->db->lastInsertId() // Retorna o ID do registro inserido
+	        ];
+	    } catch (Exception $e) {
+	        return [
+	            'success' => false,
+	            'message' => 'Erro ao inserir registro: ' . $e->getMessage()
+	        ];
+	    }
+	}
+
+}
+?>
