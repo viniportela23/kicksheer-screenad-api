@@ -10,25 +10,33 @@ use Firebase\JWT\Key; // Adicione isso aqui
 
 class ListaController extends BaseController {
 
-    public function anunciantes($data) {
+    public function anunciantes($dataToken) {
 
         if ($this->requestMethod !== 'POST') {
             Response::methodNotAllowed();
             return;
         }
+        $data = json_decode(file_get_contents('php://input'), true);
+
         $userModel = new Buscas($this->db);
-        $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUser($data['id'], 'anuncios');
+
+        if (!empty($data['id'])) {
+            $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'anuncios');
+        } else {
+            $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'anuncios');
+
+        }
 
         if (!empty($ListaAnuncios['data']) ) {
             Response::ok([
                 "dados" => $ListaAnuncios['data'],
-                "token" => $data['token']
+                "token" => $dataToken['token']
             ]);
         }
         elseif ($ListaAnuncios['message'] === 'Nenhum dado encontrado') {
             Response::ok([
                 "message" => "Nenhum dado encontrado",
-                "token" => $data['token']
+                "token" => $dataToken['token']
             ]);
         } else {
             Response::unprocessableEntity([
@@ -37,25 +45,33 @@ class ListaController extends BaseController {
   
         }
     }
-    public function prodCardapio($data) {
+    public function prodCardapio($dataToken) {
 
         if ($this->requestMethod !== 'POST') {
             Response::methodNotAllowed();
             return;
         }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
         $userModel = new Buscas($this->db);
-        $ListaProd = $userModel->ConsultaCompletaBaseIDUser($data['id'], 'prod_Cardapio');
+
+        if (!empty($data['id'])) {
+            $ListaProd = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'prod_Cardapio');
+        } else {
+            $ListaProd = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'prod_Cardapio');
+        }
 
         if (!empty($ListaProd['data']) ) {
             Response::ok([
                 "dados" => $ListaProd['data'],
-                "token" => $data['token']
+                "token" => $dataToken['token']
             ]);
         }
         elseif ($ListaProd['message'] === 'Nenhum dado encontrado') {
             Response::ok([
                 "message" => "Nenhum dado encontrado",
-                "token" => $data['token']
+                "token" => $dataToken['token']
             ]);
         } else {
             Response::unprocessableEntity([
@@ -64,25 +80,33 @@ class ListaController extends BaseController {
   
         }
     }
-    public function layoutCardapio($data) {
+    public function layoutCardapio($dataToken) {
 
         if ($this->requestMethod !== 'POST') {
             Response::methodNotAllowed();
             return;
         }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
         $userModel = new Buscas($this->db);
-        $Listalayout = $userModel->ConsultaCompletaBaseIDUser($data['id'], 'layout_Cardapio');
+
+        if (!empty($data['id'])) {
+            $Listalayout = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'layout_Cardapio');
+        } else {
+            $Listalayout = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'layout_Cardapio');
+        }
 
         if (!empty($Listalayout['data']) ) {
             Response::ok([
                 "dados" => $Listalayout['data'],
-                "token" => $data['token']
+                "token" => $dataToken['token']
             ]);
         }
         elseif ($Listalayout['message'] === 'Nenhum dado encontrado') {
             Response::ok([
                 "message" => "Nenhum dado encontrado",
-                "token" => $data['token']
+                "token" => $dataToken['token']
             ]);
         } else {
             Response::unprocessableEntity([

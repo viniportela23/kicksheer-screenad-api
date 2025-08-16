@@ -73,8 +73,57 @@ switch ($urlParts[0]) {
             case 'layoutCardapio':
                 $AdicaoController->layoutCardapio($novoToken);
                 break;
-            case 'usuarios':
-                $AdicaoController->usuarios($novoToken);
+            default:
+                http_response_code(404);
+                echo json_encode(["message" => "Endpoint de lista não encontrado"]);
+                break;
+        }
+        break;
+    case 'update':
+        // Primeiro validar o token JWT
+        require_once __DIR__ . '/../controllers/BaseController.php';
+        $baseController = new BaseController();
+        $novoToken = $baseController->validateJWT(); // Isso vai parar a execução se o token for inválido
+        
+        // Se chegou aqui, o token é válido, pode continuar
+        require_once __DIR__ . '/../controllers/UpdateController.php';
+
+        $UpdateController = new UpdateController();
+        switch ($urlParts[1] ?? '') {
+            case 'anunciantes':
+                $UpdateController->anunciantes($novoToken);
+                break;
+            case 'prodCardapio':
+                $UpdateController->prodCardapio($novoToken);
+                break;
+            case 'layoutCardapio':
+                $UpdateController->layoutCardapio($novoToken);
+                break;
+            default:
+                http_response_code(404);
+                echo json_encode(["message" => "Endpoint de lista não encontrado"]);
+                break;
+        }
+        break;
+    case 'deletar':
+        // Primeiro validar o token JWT
+        require_once __DIR__ . '/../controllers/BaseController.php';
+        $baseController = new BaseController();
+        $novoToken = $baseController->validateJWT(); // Isso vai parar a execução se o token for inválido
+        
+        // Se chegou aqui, o token é válido, pode continuar
+        require_once __DIR__ . '/../controllers/DeletaController.php';
+
+        $DeletaController = new DeletaController();
+        switch ($urlParts[1] ?? '') {
+            case 'anunciantes':
+                $DeletaController->anunciantes($novoToken);
+                break;
+            case 'prodCardapio':
+                $DeletaController->prodCardapio($novoToken);
+                break;
+            case 'layoutCardapio':
+                $DeletaController->layoutCardapio($novoToken);
                 break;
             default:
                 http_response_code(404);

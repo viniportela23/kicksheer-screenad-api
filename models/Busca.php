@@ -20,6 +20,23 @@ class Buscas extends BaseModel {
 	        'data' => $resultados
 	    ];
 	}
+
+	public function ConsultaCompletaBaseIDUserIDTabela($id_tabela, $id_user, $table) {
+	    $query = "SELECT * FROM " . $table . " WHERE id = :id AND id_user = :id_user";
+	    $stmt = $this->executeQuery($query, [':id' => $id_tabela, ':id_user' => $id_user]);
+	    $resultados = $stmt->fetch(PDO::FETCH_ASSOC);
+	    
+	    if (empty($resultados)) {
+	        return [
+	            'message' => 'Nenhum dado encontrado'
+	        ];
+	    }
+	    
+	    return [
+	        'data' => $resultados
+	    ];
+	}
+
 	public function ConsultaCompleta($table) {
 	    $query = "SELECT * FROM " . $table;
 	    $stmt = $this->executeQuery($query);
