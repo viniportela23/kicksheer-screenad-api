@@ -18,7 +18,7 @@ class UpdateController extends BaseController {
             return;
         }
 
-        $input = file_get_contents('php://input'); // Retorna "id=1&nome=teste..."
+        $input = file_get_contents('php://input');
 
         parse_str($input, $data);
 
@@ -71,7 +71,7 @@ class UpdateController extends BaseController {
             ]);
         } else {
             Response::unprocessableEntity([
-                "message" => $UpdateProdCardapio
+                "message" => "O correu um erro ao atualizar produto"
             ]);
   
         }
@@ -83,7 +83,7 @@ class UpdateController extends BaseController {
             return;
         }
 
-        $input = file_get_contents('php://input'); // Retorna "id=1&nome=teste..."
+        $input = file_get_contents('php://input');
 
         parse_str($input, $data);
 
@@ -107,12 +107,12 @@ class UpdateController extends BaseController {
 
         if ($UpdateLayoutCardapio['success'] ===  true) {
             Response::ok([
-                "message" => "Produto atualizado com sucesso!",
+                "message" => "Layout atualizado com sucesso!",
                 "token" => $dataToken['token']
             ]);
         } else {
             Response::unprocessableEntity([
-                "message" => "O correu um erro ao atualizar produto"
+                "message" => "O correu um erro ao atualizar layout"
             ]);
   
         }

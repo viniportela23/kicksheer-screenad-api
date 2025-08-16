@@ -2,71 +2,39 @@
 // ambiente criado para fazer a busca ao banco voltada ao cardapio
 
 require_once __DIR__ . '/BaseModel.php';
+require_once __DIR__ . '/Busca.php';
 
 class Deletar extends BaseModel {
 
-	public function ConsultaCompletaBaseIDUser($id_user, $table) {
-	    $query = "SELECT * FROM " . $table . " WHERE id_user = :id_user";
-	    $stmt = $this->executeQuery($query, [':id_user' => $id_user]);
-	    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	    
-	    if (empty($resultados)) {
-	        return [
-	            'message' => 'Nenhum dado encontrado'
-	        ];
-	    }
-	    
-	    return [
-	        'data' => $resultados
-	    ];
-	}
 
-	public function ConsultaCompletaBaseIDUserIDTabela($id_tabela, $id_user, $table) {
-	    $query = "SELECT * FROM " . $table . " WHERE id = :id AND id_user = :id_user";
-	    $stmt = $this->executeQuery($query, [':id' => $id_tabela, ':id_user' => $id_user]);
-	    $resultados = $stmt->fetch(PDO::FETCH_ASSOC);
-	    
-	    if (empty($resultados)) {
-	        return [
-	            'message' => 'Nenhum dado encontrado'
-	        ];
-	    }
-	    
-	    return [
-	        'data' => $resultados
-	    ];
-	}
+	public function DeletarBaseIDUserIDTabel($id_tabela, $id_user, $table) {
 
-	public function ConsultaCompleta($table) {
-	    $query = "SELECT * FROM " . $table;
-	    $stmt = $this->executeQuery($query);
-	    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    	$userModel = new Buscas($this->db);
+    	$ListaAnuncio = $userModel->ConsultaCompletaBaseIDUserIDTabela($id_tabela, $id_user, $table);
 	    
-	    if (empty($resultados)) {
+        if (empty($ListaAnuncio['data'])) {
 	        return [
-	            'message' => 'Nenhum dado encontrado'
+	            'success' => false,
+	            'message' => 'Nenhum dado encontrado para exclusão'
 	        ];
 	    }
 	    
-	    return [
-	        'data' => $resultados
-	    ];
-	}
-	public function ConsultaCompletaBaseStatus($status, $table) {
-	    $query = "SELECT * FROM " . $table . " WHERE status = :status";
-	    $stmt = $this->executeQuery($query, [':status' => $status]);
-	    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	    // Se o registro existe, procede com a exclusão
+	    $deleteQuery = "DELETE FROM " . $table . " WHERE id = :id AND id_user = :id_user";
+	    $deleteStmt = $this->executeQuery($deleteQuery, [':id' => $id_tabela, ':id_user' => $id_user]);
 	    
-	    if (empty($resultados)) {
+	    // Verifica se a exclusão foi bem-sucedida
+	    if ($deleteStmt->rowCount() > 0) {
 	        return [
-	            'message' => 'Nenhum dado encontrado'
+	            'success' => true,
+	            'message' => 'Registro deletado com sucesso'
+	        ];
+	    } else {
+	        return [
+	            'success' => false,
+	            'message' => 'Falha ao deletar o registro'
 	        ];
 	    }
-	    
-	    return [
-	        'data' => $resultados
-	    ];
-	}
-
+	}	
 }
 ?>
