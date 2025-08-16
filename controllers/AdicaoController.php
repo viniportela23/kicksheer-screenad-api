@@ -30,6 +30,12 @@ class AdicaoController extends BaseController {
             'status' => $status,
         ];
 
+        if (empty($_FILES['arquivo'])) {
+            Response::unprocessableEntity([
+                "message" => "Arquivo não enviado"
+            ]);
+        }
+
         // faz a requisicao para SalvaArquivos.php aonde salva o arquivo e depois recebe o nome q ficou salvo
         $SalvaArquivos = new SalvaArquivos();
         $resultSalvaArquivos = $SalvaArquivos->saveFile($_FILES['arquivo'], 'anunciantes');
@@ -93,6 +99,12 @@ class AdicaoController extends BaseController {
             'nome' => $nome,
             'status' => $status,
         ];
+
+        if (empty($_FILES['arquivo'])) {
+            Response::unprocessableEntity([
+                "message" => "Arquivo não enviado"
+            ]);
+        }
 
         // faz a requisicao para SalvaArquivos.php aonde salva o arquivo e depois recebe o nome q ficou salvo
         $SalvaArquivos = new SalvaArquivos();

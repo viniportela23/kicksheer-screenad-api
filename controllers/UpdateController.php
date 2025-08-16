@@ -13,14 +13,24 @@ class UpdateController extends BaseController {
 
     public function anunciantes($dataToken) {
 
-        if ($this->requestMethod !== 'PUT') {
+        if ($this->requestMethod !== 'POST') {
             Response::methodNotAllowed();
             return;
         }
 
-        $input = file_get_contents('php://input');
+        $id = $_POST['id'] ?? null;
+        $nome = $_POST['nome'] ?? null;
+        $tempo = $_POST['tempo'] ?? null;
+        $data_finalizacao = $_POST['data_finalizacao'] ?? null;
+        $status = $_POST['status'] ?? null;
 
-        parse_str($input, $data);
+        $data = [
+            'id' => $id,
+            'nome' => $nome,
+            'tempo' => $tempo,
+            'data_finalizacao' => $data_finalizacao,
+            'status' => $status,
+        ];
 
         $resultSalvaArquivos['file_name'] = null;
 
@@ -47,7 +57,7 @@ class UpdateController extends BaseController {
             ]);
         } else {
             Response::unprocessableEntity([
-                "message" => "O correu um erro ao atualizar anúncio"
+                "message" => "O correu um erro ao atualizar o anúnciante"
             ]);
   
         }
@@ -78,14 +88,20 @@ class UpdateController extends BaseController {
     }
     public function layoutCardapio($dataToken) {
 
-        if ($this->requestMethod !== 'PUT') {
+        if ($this->requestMethod !== 'POST') {
             Response::methodNotAllowed();
             return;
         }
 
-        $input = file_get_contents('php://input');
+        $id = $_POST['id'] ?? null;
+        $nome = $_POST['nome'] ?? null;
+        $status = $_POST['status'] ?? null;
 
-        parse_str($input, $data);
+        $data = [
+            'id' => $id,
+            'nome' => $nome,
+            'status' => $status,
+        ];
 
         $resultSalvaArquivos['file_name'] = null;
 
