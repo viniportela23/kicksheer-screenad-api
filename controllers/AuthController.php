@@ -3,7 +3,7 @@
 // esta parte cuida da logica do login e criacao do token
 
 require_once __DIR__ . '/BaseController.php';
-require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../models/Busca.php';
 require_once __DIR__ . '/../utils/Response.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key; // Adicione isso aqui
@@ -23,7 +23,7 @@ class AuthController extends BaseController {
             return;
         }
 
-        $userModel = new User($this->db);
+        $userModel = new Buscas($this->db);
         $user = $userModel->findByUsername($data['username']);
 
         if (!$user || !password_verify($data['password'], $user['password'])) {

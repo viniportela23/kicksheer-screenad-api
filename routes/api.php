@@ -44,8 +44,8 @@ switch ($urlParts[0]) {
             case 'layoutCardapio':
                 $listaController->layoutCardapio($novoToken);
                 break;
-            case 'usuarios':
-                $listaController->usuarios($novoToken);
+            case 'usuario':
+                $listaController->usuario($novoToken);
                 break;
             default:
                 http_response_code(404);

@@ -57,7 +57,7 @@ class UpdateController extends BaseController {
             ]);
         } else {
             Response::unprocessableEntity([
-                "message" => "O correu um erro ao atualizar o anúnciante"
+                "message" => $EdicaoAnuncios
             ]);
   
         }

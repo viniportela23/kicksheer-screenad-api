@@ -115,5 +115,37 @@ class ListaController extends BaseController {
   
         }
     }
+    public function usuario($dataToken) {
+
+        if ($this->requestMethod !== 'POST') {
+            Response::methodNotAllowed();
+            return;
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $userModel = new Buscas($this->db);
+        $Listalayout = $userModel->ConsultaCompletaBaseIDTabela($dataToken['id'], 'users');
+
+
+        if (!empty($Listalayout['data']) ) {
+            unset($Listalayout['data'][0]['password']);
+            Response::ok([
+                "dados" => $Listalayout['data'],
+                "token" => $dataToken['token']
+            ]);
+        }
+        elseif ($Listalayout['message'] === 'Nenhum dado encontrado') {
+            Response::ok([
+                "message" => "Nenhum dado encontrado",
+                "token" => $dataToken['token']
+            ]);
+        } else {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao consultar lista"
+            ]);
+  
+        }
+    }
 }
 ?>

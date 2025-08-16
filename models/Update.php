@@ -27,6 +27,12 @@ class Update extends BaseModel {
 	            ];
 	        }
 
+	        if ($data['nome'] === 'null' && $data['tempo'] === 'null' && $data['data_finalizacao'] === 'null') {
+	        	$data['nome'] = null;
+				$data['tempo'] = null;
+				$data['data_finalizacao'] = null;
+	        }
+
 	        // Preenche os dados não fornecidos com os valores atuais
 	        $fieldsToUpdate = [
 	            'nome' => $data['nome'] ?? $ListaAnuncio['data']['nome'],
@@ -103,6 +109,11 @@ class Update extends BaseModel {
 	            ];
 	        }
 
+	        if ($data['nome'] === 'null' && $data['preco'] === 'null') {
+	        	$data['nome'] = null;
+				$data['preco'] = null;
+	        }
+
 	        // Preenche os dados não fornecidos com os valores atuais
 	        $fieldsToUpdate = [
 	            'nome' => $data['nome'] ?? $ListaAnuncio['data']['nome'],
@@ -167,6 +178,8 @@ class Update extends BaseModel {
 	                'message' => 'Layout não encontrado ou não pertence ao usuário'
 	            ];
 	        }
+
+	        if ($data['nome'] === 'null') {$data['nome'] = null;}
 
 	        // Preenche os dados não fornecidos com os valores atuais
 	        $fieldsToUpdate = [
