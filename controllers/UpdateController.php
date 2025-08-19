@@ -96,6 +96,7 @@ class UpdateController extends BaseController {
         $id = $_POST['id'] ?? null;
         $nome = $_POST['nome'] ?? null;
         $status = $_POST['status'] ?? null;
+        $tempo = $_POST['tempo'] ?? null;
         $cor_titulo = $_POST['corTitulo'] ?? null;
         $cor_fundo = $_POST['cor_fundo'] ?? null;
         $cor_nome = $_POST['cor_nome'] ?? null;
@@ -105,6 +106,7 @@ class UpdateController extends BaseController {
             'id' => $id,
             'nome' => $nome,
             'status' => $status,
+            'tempo' => $tempo,
             'cor_titulo' => $cor_titulo,
             'cor_fundo' => $cor_fundo,
             'cor_nome' => $cor_nome,

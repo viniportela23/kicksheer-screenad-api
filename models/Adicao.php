@@ -88,14 +88,15 @@ class Adicao extends BaseModel {
 
 	    try {
 	        $query = "INSERT INTO layout_Cardapio 
-	                 (nome, imagem, data_criacao, data_update, status, cor_titulo, cor_fundo, cor_nome, cor_preco, id_user) 
+	                 (nome, imagem, data_criacao, data_update, status, tempo, cor_titulo, cor_fundo, cor_nome, cor_preco, id_user) 
 	                 VALUES 
-	                 (:nome, :arquivo, NOW(), NOW(), :status, :cor_titulo, :cor_fundo, :cor_nome, :cor_preco, :id_user)";
+	                 (:nome, :arquivo, NOW(), NOW(), :status, :tempo, :cor_titulo, :cor_fundo, :cor_nome, :cor_preco, :id_user)";
 	        
 	        $stmt = $this->executeQuery($query, [
 	            ':nome' => $data['nome'],
 	            ':arquivo' => $arquivo,
 	            ':status' => $data['status'],
+	            ':tempo' => $data['tempo'],
 	            ':cor_titulo' => $data['cor_titulo'],
 	            ':cor_fundo' => $data['cor_fundo'],
 	            ':cor_nome' => $data['cor_nome'],

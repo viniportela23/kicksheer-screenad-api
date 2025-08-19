@@ -181,6 +181,7 @@ class Update extends BaseModel {
 
 	        if ($data['nome'] === 'null') {
 	        	$data['nome'] = null;
+	        	$data['tempo'] = null;
 	        	$data['cor_titulo'] = null;
 	        	$data['cor_fundo'] = null;
 	        	$data['cor_nome'] = null;
@@ -192,6 +193,7 @@ class Update extends BaseModel {
 	        $fieldsToUpdate = [
 	            'nome' => $data['nome'] ?? $ListaAnuncio['data']['nome'],
 	            'status' => $data['status'] ?? $ListaAnuncio['data']['status'],
+	            'tempo' => $data['tempo'] ?? $ListaAnuncio['data']['tempo'],
 	            'cor_titulo' => $data['cor_titulo'] ?? $ListaAnuncio['data']['cor_titulo'],
 	            'cor_fundo' => $data['cor_fundo'] ?? $ListaAnuncio['data']['cor_fundo'],
 	            'cor_nome' => $data['cor_nome'] ?? $ListaAnuncio['data']['cor_nome'],
@@ -203,6 +205,7 @@ class Update extends BaseModel {
 	        $query = "UPDATE layout_Cardapio SET 
 	                 nome = :nome, 
 	                 status = :status,
+	                 tempo = :tempo, 
 	                 cor_titulo = :cor_titulo, 
 	                 cor_fundo = :cor_fundo, 
 	                 cor_nome = :cor_nome, 
@@ -213,6 +216,7 @@ class Update extends BaseModel {
 	            ':id' => $data['id'],
 	            ':nome' => $fieldsToUpdate['nome'],
 	            ':status' => $fieldsToUpdate['status'],
+	            ':tempo' => $fieldsToUpdate['tempo'],
 	            ':cor_titulo' => $fieldsToUpdate['cor_titulo'],
 	            ':cor_fundo' => $fieldsToUpdate['cor_fundo'],
 	            ':cor_nome' => $fieldsToUpdate['cor_nome'],

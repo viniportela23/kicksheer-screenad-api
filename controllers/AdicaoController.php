@@ -94,6 +94,7 @@ class AdicaoController extends BaseController {
 
         $nome = $_POST['nome'] ?? null;
         $status = $_POST['status'] ?? null;
+        $tempo = $_POST['tempo'] ?? null;
         $cor_titulo = $_POST['corTitulo'] ?? null;
         $cor_fundo = $_POST['corFundo'] ?? null;
         $cor_nome = $_POST['corNome'] ?? null;
@@ -102,6 +103,7 @@ class AdicaoController extends BaseController {
         $data = [
             'nome' => $nome,
             'status' => $status,
+            'tempo' => $tempo,
             'cor_titulo' => $cor_titulo,
             'cor_fundo' => $cor_fundo,
             'cor_nome' => $cor_nome,
