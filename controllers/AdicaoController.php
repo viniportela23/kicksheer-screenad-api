@@ -94,10 +94,18 @@ class AdicaoController extends BaseController {
 
         $nome = $_POST['nome'] ?? null;
         $status = $_POST['status'] ?? null;
+        $cor_titulo = $_POST['corTitulo'] ?? null;
+        $cor_fundo = $_POST['corFundo'] ?? null;
+        $cor_nome = $_POST['corNome'] ?? null;
+        $cor_preco = $_POST['corPreco'] ?? null;
 
         $data = [
             'nome' => $nome,
             'status' => $status,
+            'cor_titulo' => $cor_titulo,
+            'cor_fundo' => $cor_fundo,
+            'cor_nome' => $cor_nome,
+            'cor_preco' => $cor_preco,
         ];
 
         if (empty($_FILES['arquivo'])) {

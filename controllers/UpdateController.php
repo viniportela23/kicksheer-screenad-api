@@ -96,11 +96,19 @@ class UpdateController extends BaseController {
         $id = $_POST['id'] ?? null;
         $nome = $_POST['nome'] ?? null;
         $status = $_POST['status'] ?? null;
+        $cor_titulo = $_POST['corTitulo'] ?? null;
+        $cor_fundo = $_POST['cor_fundo'] ?? null;
+        $cor_nome = $_POST['cor_nome'] ?? null;
+        $cor_preco = $_POST['cor_preco'] ?? null;
 
         $data = [
             'id' => $id,
             'nome' => $nome,
             'status' => $status,
+            'cor_titulo' => $cor_titulo,
+            'cor_fundo' => $cor_fundo,
+            'cor_nome' => $cor_nome,
+            'cor_preco' => $cor_preco,
         ];
 
         $resultSalvaArquivos['file_name'] = null;

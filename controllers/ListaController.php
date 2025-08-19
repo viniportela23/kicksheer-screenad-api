@@ -22,10 +22,14 @@ class ListaController extends BaseController {
 
         if (!empty($data['id'])) {
             $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'anuncios');
+
+        } elseif (!empty($data['status'])) {
+            $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUserStatus($data['status'], $dataToken['id'], 'anuncios');
+
         } else {
             $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'anuncios');
-
         }
+
 
         if (!empty($ListaAnuncios['data']) ) {
             Response::ok([
@@ -58,6 +62,9 @@ class ListaController extends BaseController {
 
         if (!empty($data['id'])) {
             $ListaProd = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'prod_Cardapio');
+        } elseif (!empty($data['status'])) {
+            $ListaProd = $userModel->ConsultaCompletaBaseIDUserStatus($data['status'], $dataToken['id'], 'prod_Cardapio');
+
         } else {
             $ListaProd = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'prod_Cardapio');
         }
@@ -93,6 +100,9 @@ class ListaController extends BaseController {
 
         if (!empty($data['id'])) {
             $Listalayout = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'layout_Cardapio');
+        } elseif (!empty($data['status'])) {
+            $Listalayout = $userModel->ConsultaCompletaBaseIDUserStatus($data['status'], $dataToken['id'], 'layout_Cardapio');
+
         } else {
             $Listalayout = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'layout_Cardapio');
         }

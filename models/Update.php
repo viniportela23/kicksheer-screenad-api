@@ -179,25 +179,44 @@ class Update extends BaseModel {
 	            ];
 	        }
 
-	        if ($data['nome'] === 'null') {$data['nome'] = null;}
+	        if ($data['nome'] === 'null') {
+	        	$data['nome'] = null;
+	        	$data['cor_titulo'] = null;
+	        	$data['cor_fundo'] = null;
+	        	$data['cor_nome'] = null;
+	        	$data['cor_preco'] = null;
+
+	        }
 
 	        // Preenche os dados não fornecidos com os valores atuais
 	        $fieldsToUpdate = [
 	            'nome' => $data['nome'] ?? $ListaAnuncio['data']['nome'],
 	            'status' => $data['status'] ?? $ListaAnuncio['data']['status'],
+	            'cor_titulo' => $data['cor_titulo'] ?? $ListaAnuncio['data']['cor_titulo'],
+	            'cor_fundo' => $data['cor_fundo'] ?? $ListaAnuncio['data']['cor_fundo'],
+	            'cor_nome' => $data['cor_nome'] ?? $ListaAnuncio['data']['cor_nome'],
+	            'cor_preco' => $data['cor_preco'] ?? $ListaAnuncio['data']['cor_preco'],	            
 	            'imagem' => ($arquivo !== null) ? $arquivo : $ListaAnuncio['data']['imagem']
 	        ];
 
 	        // Inicia a construção da query
 	        $query = "UPDATE layout_Cardapio SET 
 	                 nome = :nome, 
-	                 status = :status, 
+	                 status = :status,
+	                 cor_titulo = :cor_titulo, 
+	                 cor_fundo = :cor_fundo, 
+	                 cor_nome = :cor_nome, 
+	                 cor_preco = :cor_preco, 
 	                 data_update = NOW()";
 	        
 	        $params = [
 	            ':id' => $data['id'],
 	            ':nome' => $fieldsToUpdate['nome'],
 	            ':status' => $fieldsToUpdate['status'],
+	            ':cor_titulo' => $fieldsToUpdate['cor_titulo'],
+	            ':cor_fundo' => $fieldsToUpdate['cor_fundo'],
+	            ':cor_nome' => $fieldsToUpdate['cor_nome'],
+	            ':cor_preco' => $fieldsToUpdate['cor_preco'],
 	            ':id_user' => $id_user
 	        ];
 	        
