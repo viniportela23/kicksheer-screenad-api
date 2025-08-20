@@ -169,8 +169,8 @@ class Update extends BaseModel {
 	    }
 
 	    try {
-	    	$userModel = new Buscas($this->db);
-	    	$ListaAnuncio = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $id_user, 'layout_Cardapio');
+	        $userModel = new Buscas($this->db);
+	        $ListaAnuncio = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $id_user, 'layout_Cardapio');
 
 	        if (empty($ListaAnuncio['data'])) {
 	            return [
@@ -180,13 +180,12 @@ class Update extends BaseModel {
 	        }
 
 	        if ($data['nome'] === 'null') {
-	        	$data['nome'] = null;
-	        	$data['tempo'] = null;
-	        	$data['cor_titulo'] = null;
-	        	$data['cor_fundo'] = null;
-	        	$data['cor_nome'] = null;
-	        	$data['cor_preco'] = null;
-
+	            $data['nome'] = null;
+	            $data['tempo'] = null;
+	            $data['cor_titulo'] = null;
+	            $data['cor_fundo'] = null;
+	            $data['cor_nome'] = null;
+	            $data['cor_preco'] = null;
 	        }
 
 	        // Preenche os dados não fornecidos com os valores atuais
@@ -197,11 +196,49 @@ class Update extends BaseModel {
 	            'cor_titulo' => $data['cor_titulo'] ?? $ListaAnuncio['data']['cor_titulo'],
 	            'cor_fundo' => $data['cor_fundo'] ?? $ListaAnuncio['data']['cor_fundo'],
 	            'cor_nome' => $data['cor_nome'] ?? $ListaAnuncio['data']['cor_nome'],
-	            'cor_preco' => $data['cor_preco'] ?? $ListaAnuncio['data']['cor_preco'],	            
+	            'cor_preco' => $data['cor_preco'] ?? $ListaAnuncio['data']['cor_preco'],            
 	            'imagem' => ($arquivo !== null) ? $arquivo : $ListaAnuncio['data']['imagem']
 	        ];
 
-	        // Inicia a construção da query
+	        // Lógica para gerenciar status
+	        $statusMudou = isset($data['status']) && $data['status'] != $ListaAnuncio['data']['status'];
+	        $statusEstaAtivo = $fieldsToUpdate['status'] == 1;
+
+	        // Se o status mudou para ativo (1), desativa todos os outros layouts
+	        if ($statusMudou && $statusEstaAtivo) {
+	            // Consulta todos os layouts do usuário
+	            $todosLayouts = $userModel->ConsultaCompletaBaseIDUser($id_user, 'layout_Cardapio');
+	            
+	            if (!empty($todosLayouts['data'])) {
+	                // Desativa todos os outros layouts (exceto o atual)
+	                $queryDesativar = "UPDATE layout_Cardapio SET status = 0, data_update = NOW() 
+	                                  WHERE id_user = :id_user AND id != :id_atual AND status = 1";
+	                
+	                $paramsDesativar = [
+	                    ':id_user' => $id_user,
+	                    ':id_atual' => $data['id']
+	                ];
+	                
+	                $this->executeQuery($queryDesativar, $paramsDesativar);
+	            }
+	        }
+	        // Se o status mudou para inativo (0) e era o único ativo, verifica se precisa ativar outro
+	        else if ($statusMudou && !$statusEstaAtivo) {
+	            // Verifica se este era o único layout ativo
+	            $queryVerificaAtivos = "SELECT COUNT(*) as total_ativos FROM layout_Cardapio 
+	                                   WHERE id_user = :id_user AND status = 1 AND id != :id_atual";
+	            
+	            $paramsVerifica = [
+	                ':id_user' => $id_user,
+	                ':id_atual' => $data['id']
+	            ];
+	            
+	            $stmt = $this->executeQuery($queryVerificaAtivos, $paramsVerifica);
+	            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+	            
+	        }
+
+	        // Inicia a construção da query para atualizar o layout atual
 	        $query = "UPDATE layout_Cardapio SET 
 	                 nome = :nome, 
 	                 status = :status,

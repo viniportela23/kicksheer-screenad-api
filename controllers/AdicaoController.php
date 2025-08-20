@@ -131,12 +131,12 @@ class AdicaoController extends BaseController {
 
         if ($InsertLayoutCardapio['success'] ===  true) {
             Response::ok([
-                "message" => "Produto atualizado com sucesso!",
+                "message" => $InsertLayoutCardapio,
                 "token" => $dataToken['token']
             ]);
         } else {
             Response::unprocessableEntity([
-                "message" => "O correu um erro ao atualizar produto"
+                "message" => "O correu um erro ao inserir produto"
             ]);
   
         }

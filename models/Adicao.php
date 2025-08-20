@@ -2,6 +2,7 @@
 // ambiente criado para fazer a busca ao banco voltada ao cardapio
 
 require_once __DIR__ . '/BaseModel.php';
+require_once __DIR__ . '/Busca.php';
 
 class Adicao extends BaseModel {
 
@@ -87,6 +88,29 @@ class Adicao extends BaseModel {
 	    }
 
 	    try {
+	        // Se o status for 1, verificar se já existe algum layout ativo
+	        if ($data['status'] == 1) {
+	            $userModel = new Buscas($this->db);
+	            $ListaAnuncio = $userModel->ConsultaCompletaBaseIDUser($id_user, 'layout_Cardapio');
+	            
+	            // Verificar se existe algum layout com status 1
+	            $hasActiveLayout = false;
+	            foreach ($ListaAnuncio['data'] as $layout) {
+	                if ($layout['status'] == 1) {
+	                    $hasActiveLayout = true;
+	                    break;
+	                }
+	            }
+	            
+	            // Se já existe um layout ativo, desativar todos os outros
+	            if ($hasActiveLayout) {
+	                $updateQuery = "UPDATE layout_Cardapio SET status = 0, data_update = NOW() 
+	                               WHERE id_user = :id_user AND status = 1";
+	                $this->executeQuery($updateQuery, [':id_user' => $id_user]);
+	            }
+	        }
+	        
+	        // Inserir o novo registro
 	        $query = "INSERT INTO layout_Cardapio 
 	                 (nome, imagem, data_criacao, data_update, status, tempo, cor_titulo, cor_fundo, cor_nome, cor_preco, id_user) 
 	                 VALUES 
@@ -116,7 +140,5 @@ class Adicao extends BaseModel {
 	        ];
 	    }
 	}
-
-
 }
 ?>
