@@ -1,17 +1,11 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /api/
     
-    # Libera acesso direto à pasta uploads
+    # Libera acesso direto à pasta uploads e seus arquivos
     RewriteRule ^uploads/ - [L]
     
     # Redireciona todas as outras requisições para o index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-    
-    # Define cabeçalhos CORS
-    Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 </IfModule>

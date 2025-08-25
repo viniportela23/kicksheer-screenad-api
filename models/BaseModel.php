@@ -8,6 +8,10 @@ class BaseModel {
 
     public function __construct($db) {
         $this->db = $db;
+        
+        // Configuração para retornar tipos nativos
+        $this->db->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
+        $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
     protected function executeQuery($query, $params = []) {
@@ -20,4 +24,3 @@ class BaseModel {
         }
     }
 }
-?>

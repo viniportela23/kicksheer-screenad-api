@@ -21,7 +21,13 @@ class BaseController {
     }
 
     public function validateJWT() {
+
         $headers = getallheaders();
+
+        if (!isset($headers['Authorization']) && isset($headers['Token-Authorization'])) {
+            $headers['Authorization'] = $headers['Token-Authorization'];
+        }
+
         if (!isset($headers['Authorization'])) {
             Response::unauthorized(["message" => "Token de acesso não fornecido"]);
             return false;

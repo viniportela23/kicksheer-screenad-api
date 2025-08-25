@@ -12,19 +12,21 @@ class ListaController extends BaseController {
 
     public function anunciantes($dataToken) {
 
-        if ($this->requestMethod !== 'POST') {
+        if ($this->requestMethod !== 'GET') {
             Response::methodNotAllowed();
             return;
         }
-        $data = json_decode(file_get_contents('php://input'), true);
+
+        $status = $_GET['status'] ?? null;
+        $id = $_GET['id'] ?? null;
 
         $userModel = new Buscas($this->db);
 
-        if (!empty($data['id'])) {
-            $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'anuncios');
+        if (!empty($id)) {
+            $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUserIDTabela($id, $dataToken['id'], 'anuncios');
 
-        } elseif (!empty($data['status'])) {
-            $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUserStatus($data['status'], $dataToken['id'], 'anuncios');
+        } elseif (!empty($status)) {
+            $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUserStatus($status, $dataToken['id'], 'anuncios');
 
         } else {
             $ListaAnuncios = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'anuncios');
@@ -51,19 +53,20 @@ class ListaController extends BaseController {
     }
     public function prodCardapio($dataToken) {
 
-        if ($this->requestMethod !== 'POST') {
+        if ($this->requestMethod !== 'GET') {
             Response::methodNotAllowed();
             return;
         }
 
-        $data = json_decode(file_get_contents('php://input'), true);
+        $status = $_GET['status'] ?? null;
+        $id = $_GET['id'] ?? null;
 
         $userModel = new Buscas($this->db);
 
-        if (!empty($data['id'])) {
-            $ListaProd = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'prod_Cardapio');
-        } elseif (!empty($data['status'])) {
-            $ListaProd = $userModel->ConsultaCompletaBaseIDUserStatus($data['status'], $dataToken['id'], 'prod_Cardapio');
+        if (!empty($id)) {
+            $ListaProd = $userModel->ConsultaCompletaBaseIDUserIDTabela($id, $dataToken['id'], 'prod_Cardapio');
+        } elseif (!empty($status)) {
+            $ListaProd = $userModel->ConsultaCompletaBaseIDUserStatus($status, $dataToken['id'], 'prod_Cardapio');
 
         } else {
             $ListaProd = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'prod_Cardapio');
@@ -89,19 +92,20 @@ class ListaController extends BaseController {
     }
     public function layoutCardapio($dataToken) {
 
-        if ($this->requestMethod !== 'POST') {
+        if ($this->requestMethod !== 'GET') {
             Response::methodNotAllowed();
             return;
         }
 
-        $data = json_decode(file_get_contents('php://input'), true);
+        $status = $_GET['status'] ?? null;
+        $id = $_GET['id'] ?? null;
 
         $userModel = new Buscas($this->db);
 
-        if (!empty($data['id'])) {
-            $Listalayout = $userModel->ConsultaCompletaBaseIDUserIDTabela($data['id'], $dataToken['id'], 'layout_Cardapio');
-        } elseif (!empty($data['status'])) {
-            $Listalayout = $userModel->ConsultaCompletaBaseIDUserStatus($data['status'], $dataToken['id'], 'layout_Cardapio');
+        if (!empty($id)) {
+            $Listalayout = $userModel->ConsultaCompletaBaseIDUserIDTabela($id, $dataToken['id'], 'layout_Cardapio');
+        } elseif (!empty($status)) {
+            $Listalayout = $userModel->ConsultaCompletaBaseIDUserStatus($status, $dataToken['id'], 'layout_Cardapio');
 
         } else {
             $Listalayout = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'layout_Cardapio');
@@ -127,12 +131,10 @@ class ListaController extends BaseController {
     }
     public function usuario($dataToken) {
 
-        if ($this->requestMethod !== 'POST') {
+        if ($this->requestMethod !== 'GET') {
             Response::methodNotAllowed();
             return;
         }
-
-        $data = json_decode(file_get_contents('php://input'), true);
 
         $userModel = new Buscas($this->db);
         $Listalayout = $userModel->ConsultaCompletaBaseIDTabela($dataToken['id'], 'users');
