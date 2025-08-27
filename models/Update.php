@@ -292,5 +292,51 @@ class Update extends BaseModel {
 	        ];
 	    }
 	}
+	public function UpdateNotificacoes($data, $id_user) {
+	    // Validação básica dos dados recebidos
+	    if (empty($data['id'])) {
+	        return [
+	            'success' => false,
+	            'message' => 'ID é obrigatório'
+	        ];
+	    }
+
+	    try {
+
+
+	        // Construção da query de atualização
+	        $query = "UPDATE notificacoes SET 
+	                 data_modificacao = NOW(), 
+	                 status = :status
+	                 WHERE id = :id AND id_user = :id_user";
+
+	        $params = [
+	            ':id' => $data['id'],
+	            ':status' => $data['status'],
+	            ':id_user' => $id_user            
+	        ];
+	        
+	        $stmt = $this->executeQuery($query, $params);
+	        
+	        // Verifica se alguma linha foi afetada
+	        if ($stmt->rowCount() > 0) {
+	            return [
+	                'success' => true,
+	                'message' => 'Registro atualizado com sucesso',
+	                'affected_rows' => $stmt->rowCount()
+	            ];
+	        } else {
+	            return [
+	                'success' => false,
+	                'message' => 'Nenhum registro foi atualizado'
+	            ];
+	        }
+	    } catch (Exception $e) {
+	        return [
+	            'success' => false,
+	            'message' => 'Erro ao atualizar registro: ' . $e->getMessage()
+	        ];
+	    }
+	}
 }
 ?>

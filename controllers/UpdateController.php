@@ -76,7 +76,7 @@ class UpdateController extends BaseController {
 
         if ($UpdateProdCardapio['success'] ===  true) {
             Response::ok([
-                "message" => "Produto do cardapio inserido com sucesso!",
+                "message" => "Produto do cardapio atualizado com sucesso!",
                 "token" => $dataToken['token']
             ]);
         } else {
@@ -139,6 +139,42 @@ class UpdateController extends BaseController {
         } else {
             Response::unprocessableEntity([
                 "message" => "O correu um erro ao atualizar layout"
+            ]);
+  
+        }
+    }
+    public function notificacoes($dataToken) {
+
+        if ($this->requestMethod !== 'PUT') {
+            Response::methodNotAllowed();
+            return;
+        }
+
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        $userModel = new Update($this->db);
+
+        if (isset($data["id"]) && is_array($data["id"])) {
+            foreach ($data["id"] as $id) {
+                $UpdateNotificacoes = $userModel->UpdateNotificacoes(['id' => $id, 'status' => $data["status"]], $dataToken['id']);
+            }
+        } else if (isset($data["id"])) {
+            $UpdateNotificacoes = $userModel->UpdateNotificacoes($data, $dataToken['id']);
+        } else {
+            Response::unprocessableEntity([
+                "message" => "ID é obrigatório"
+            ]);        
+        }
+
+
+        if ($UpdateNotificacoes['success'] ===  true) {
+            Response::ok([
+                "message" => "Notificacao atualizada com sucesso!",
+                "token" => $dataToken['token']
+            ]);
+        } else {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao atualizar produto"
             ]);
   
         }

@@ -107,4 +107,5 @@ class Buscas extends BaseModel {
 	}
 
 }
+
 ?>

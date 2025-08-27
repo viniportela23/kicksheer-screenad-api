@@ -47,6 +47,9 @@ switch ($urlParts[0]) {
             case 'usuario':
                 $listaController->usuario($novoToken);
                 break;
+            case 'notificacoes':
+                $listaController->notificacoes($novoToken);
+                break;
             default:
                 http_response_code(404);
                 echo json_encode(["message" => "Endpoint de lista não encontrado"]);
@@ -98,6 +101,9 @@ switch ($urlParts[0]) {
                 break;
             case 'layoutCardapio':
                 $UpdateController->layoutCardapio($novoToken);
+                break;
+            case 'notificacoes':
+                $UpdateController->notificacoes($novoToken);
                 break;
             default:
                 http_response_code(404);

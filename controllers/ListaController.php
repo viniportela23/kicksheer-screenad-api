@@ -137,17 +137,28 @@ class ListaController extends BaseController {
         }
 
         $userModel = new Buscas($this->db);
-        $Listalayout = $userModel->ConsultaCompletaBaseIDTabela($dataToken['id'], 'users');
+        $ListaUsuario = $userModel->ConsultaCompletaBaseIDTabela($dataToken['id'], 'users');
+        $ListaNotificacoes = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'notificacoes');
 
+        $contador = 0;
 
-        if (!empty($Listalayout['data']) ) {
-            unset($Listalayout['data'][0]['password']);
+        if (!empty($ListaNotificacoes['data']) ) {
+            foreach ($ListaNotificacoes['data'] as $item) {
+                if ($item['status'] == 1) {
+                    $contador++;
+                }
+            }
+        }
+
+        if (!empty($ListaUsuario['data']) ) {
+            unset($ListaUsuario['data'][0]['password']);
             Response::ok([
-                "dados" => $Listalayout['data'],
+                "dados" => $ListaUsuario['data'],
+                "notificacoes" => $contador,               
                 "token" => $dataToken['token']
             ]);
         }
-        elseif ($Listalayout['message'] === 'Nenhum dado encontrado') {
+        elseif ($ListaUsuario['message'] === 'Nenhum dado encontrado') {
             Response::ok([
                 "message" => "Nenhum dado encontrado",
                 "token" => $dataToken['token']
@@ -159,5 +170,37 @@ class ListaController extends BaseController {
   
         }
     }
+    public function notificacoes($dataToken) {
+
+        if ($this->requestMethod !== 'GET') {
+            Response::methodNotAllowed();
+            return;
+        }
+
+        $userModel = new Buscas($this->db);
+        $ListaNotificacoes = $userModel->ConsultaCompletaBaseIDUser($dataToken['id'], 'notificacoes');
+
+
+        if (!empty($ListaNotificacoes['data']) ) {
+            Response::ok([
+                "dados" => $ListaNotificacoes['data'],
+                "token" => $dataToken['token']
+            ]);
+        }
+        elseif ($ListaUsuario['message'] === 'Nenhum dado encontrado') {
+            Response::ok([
+                "message" => "Nenhum dado encontrado",
+                "token" => $dataToken['token']
+            ]);
+        } else {
+            Response::unprocessableEntity([
+                "message" => "O correu um erro ao consultar lista"
+            ]);
+  
+        }
+    }
+
+
 }
+
 ?>
