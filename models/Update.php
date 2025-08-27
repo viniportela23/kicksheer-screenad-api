@@ -211,7 +211,7 @@ class Update extends BaseModel {
 	            
 	            if (!empty($todosLayouts['data'])) {
 	                // Desativa todos os outros layouts (exceto o atual)
-	                $queryDesativar = "UPDATE layout_Cardapio SET status = 0, data_update = NOW() 
+	                $queryDesativar = "UPDATE layout_Cardapio SET status = 0, data_modificacao = NOW() 
 	                                  WHERE id_user = :id_user AND id != :id_atual AND status = 1";
 	                
 	                $paramsDesativar = [
@@ -247,7 +247,7 @@ class Update extends BaseModel {
 	                 cor_fundo = :cor_fundo, 
 	                 cor_nome = :cor_nome, 
 	                 cor_preco = :cor_preco, 
-	                 data_update = NOW()";
+	                 data_modificacao = NOW()";
 	        
 	        $params = [
 	            ':id' => $data['id'],

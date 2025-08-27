@@ -104,7 +104,7 @@ class Adicao extends BaseModel {
 	            
 	            // Se já existe um layout ativo, desativar todos os outros
 	            if ($hasActiveLayout) {
-	                $updateQuery = "UPDATE layout_Cardapio SET status = 0, data_update = NOW() 
+	                $updateQuery = "UPDATE layout_Cardapio SET status = 0, data_modificacao = NOW() 
 	                               WHERE id_user = :id_user AND status = 1";
 	                $this->executeQuery($updateQuery, [':id_user' => $id_user]);
 	            }
@@ -112,7 +112,7 @@ class Adicao extends BaseModel {
 	        
 	        // Inserir o novo registro
 	        $query = "INSERT INTO layout_Cardapio 
-	                 (nome, imagem, data_criacao, data_update, status, tempo, cor_titulo, cor_fundo, cor_nome, cor_preco, id_user) 
+	                 (nome, imagem, data_criacao, data_modificacao, status, tempo, cor_titulo, cor_fundo, cor_nome, cor_preco, id_user) 
 	                 VALUES 
 	                 (:nome, :arquivo, NOW(), NOW(), :status, :tempo, :cor_titulo, :cor_fundo, :cor_nome, :cor_preco, :id_user)";
 	        
