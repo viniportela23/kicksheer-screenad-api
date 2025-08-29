@@ -303,7 +303,6 @@ class Update extends BaseModel {
 
 	    try {
 
-
 	        // Construção da query de atualização
 	        $query = "UPDATE notificacoes SET 
 	                 data_modificacao = NOW(), 
