@@ -1,3 +1,5 @@
 .env
 sftp-config.json
 uploads/
+.user.ini
+php.ini
